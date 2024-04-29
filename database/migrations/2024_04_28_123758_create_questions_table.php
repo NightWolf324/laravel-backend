@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->boolean('limit_one_response')->default(false);
-            $table->foreignId('creator_id')->constrained('users');
-            $table->json('allowed_domains');
+            $table->string('choice_type');
+            $table->boolean('is_required');
+            $table->text('choices')->nullable();
+            $table->foreignId('form_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('questions');
     }
 };

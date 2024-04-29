@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Form;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,8 @@ class FormController extends Controller
     public function index(Request $request)
     {
         $forms = Form::where('creator_id', $request->user()->id)->get();
+
+        $forms->makeHidden('allowed_domains');
 
         return response()->json([
             'message' => 'Get all forms success',
@@ -34,11 +37,13 @@ class FormController extends Controller
         $form = Form::create([
             'name'=> $request->name,
             'slug'=> $request->slug,
-            'allowed_domains' => $request->allowed_domains,
             'description' => $request->description,
             'limit_one_response' => $request->limit_one_response ? 1:0,
-            'creator_id' => $request->user()->id
+            'creator_id' => $request->user()->id,
+            'allowed_domains' => $request->allowed_domains,
         ]);
+
+        $form->makeHidden('allowed_domains');
 
         return response()->json([
             'message'=> 'Create Form Success',
@@ -48,7 +53,7 @@ class FormController extends Controller
 
     public function show(Request $request, $slug)
     {
-        $form = Form::where('slug', $slug)->firstOrFail();
+        $form = Form::where('slug', $slug)->with('questions')->firstOrFail();
 
         if (!$form) {
             return response()->json([

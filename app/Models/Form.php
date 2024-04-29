@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Form extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'allowed_domains', 'description', 'limit_one_response', 'creator_id'
+        'name',
+        'slug',
+        'description',
+        'limit_one_response',
+        'creator_id',
+        'allowed_domains',
     ];
 
     protected $casts = [
@@ -18,11 +24,17 @@ class Form extends Model
     ];
 
     protected $hidden = [
-        'allowed_domains', 'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
     }
 }
