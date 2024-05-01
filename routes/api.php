@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FormController;
 use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\ResponseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,7 @@ Route::group(['prefix' => 'v1/auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::resource('/forms', FormController::class)->middleware('auth:sanctum');
     Route::resource('/forms/{form_slug}/questions', QuestionController::class)->middleware('auth:sanctum');
+    Route::resource('/forms/{form_slug}/responses', ResponseController::class)->middleware('auth:sanctum');
 });
 
 

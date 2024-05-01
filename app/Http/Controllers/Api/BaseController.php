@@ -15,7 +15,7 @@ class BaseController extends Controller
         ];
 
         if(!empty($result)) {
-            $response['data'] = $result;
+            $response['user'] = $result;
         }
 
         return response()->json($response, 200);

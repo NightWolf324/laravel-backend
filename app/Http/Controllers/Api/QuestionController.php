@@ -28,7 +28,7 @@ class QuestionController extends Controller
             'name'=> $request->name,
             'choice_type' => $request->choice_type,
             'is_required' => $request->is_required,
-            'choices' => implode(',',$request->choices),
+            'choices' => !empty($request->choices) ? implode(',',$request->choices) : null,
             'form_id' => $form->id
         ]);
 

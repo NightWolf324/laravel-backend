@@ -45,6 +45,12 @@ class FormController extends Controller
 
         $form->makeHidden('allowed_domains');
 
+        if($form->limit_one_response = 1) {
+            $form->limit_one_response = true;
+        } else {
+            $form->limit_one_response = false;
+        }
+
         return response()->json([
             'message'=> 'Create Form Success',
             'form' => $form,
